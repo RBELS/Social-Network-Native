@@ -1,14 +1,18 @@
 import React from 'react'
-import { Text, View, StyleSheet } from 'react-native'
-import { Icon } from "react-native-elements";
-import NavBar from '../../NavBar/NavBar';
+import { Text, View, StyleSheet, ScrollView } from 'react-native'
+import { connect } from 'react-redux';
+import TopProfileContent from './TopProfileContent/TopProfileContent';
+import ProfileInfo from './ProfileInfo/ProfileInfo';
 
-const ProfileScreen = ({navigation, route}) => {
+const ProfileScreen = ({profile, ...props}) => {
 
 
     return (
         <View style={styles.screen}>
-            <Text>ProfileScreen</Text>
+            <ScrollView style={styles.content}>
+                <TopProfileContent profile={profile} />
+                <ProfileInfo profile={profile} />
+            </ScrollView>
         </View>
     )
 }
@@ -17,8 +21,23 @@ const styles = StyleSheet.create({
     screen: {
         height: "100%",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+    },
+    content: {
+        flexGrow: 1,
+        height: "100%",
+        width: "100%",
+        paddingHorizontal: "3%",
+        paddingVertical: "1%",
     },
 });
 
-export default ProfileScreen
+
+
+const mapStateToProps = state => {
+    return {
+        profile: state.profilePage.profile
+    }
+}
+
+export default connect(mapStateToProps)(ProfileScreen);

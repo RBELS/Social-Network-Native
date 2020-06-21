@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         flexDirection: "row",
         justifyContent: "space-evenly"
-    }
+    },
 });
 
 export default NavBar
