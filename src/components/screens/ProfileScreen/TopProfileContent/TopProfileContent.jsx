@@ -12,9 +12,9 @@ const TopProfileContent = ({ profile, ...props }) => {
                     <Text style={styles.nameTxt}>{profile.name}</Text>
                 </View>
                 <View style={styles.others}>
-                    <Other option={"Posts"} value={5} />
-                    <Other option={"Followers"} value={60} />
-                    <Other option={"Follows"} value={69} />
+                    <Other option={"Posts"} value={profile.posts} />
+                    <Other option={"Followers"} value={profile.followers} />
+                    <Other option={"Follows"} value={profile.follows} />
                 </View>
                 <View style={styles.status}>
                     <Text style={styles.statusText}>{profile.status}</Text>{/*Max 40 symbols*/}

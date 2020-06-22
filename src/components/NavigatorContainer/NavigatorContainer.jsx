@@ -6,10 +6,11 @@ import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { initAppTC } from '../../redux/reducers/app-reducer';
 import Login from '../pages/Login/Login';
+import { loginTC } from '../../redux/reducers/auth-reducer';
 
 const Stack = createStackNavigator();
 
-const NavigatorContainer = ({ initialized, logged, init, ...props }) => {
+const NavigatorContainer = ({init, initialized, logged, login, ...props }) => {
 
     useEffect(() => {
         init(logged);
@@ -18,8 +19,9 @@ const NavigatorContainer = ({ initialized, logged, init, ...props }) => {
     if(initialized) {
         return (
             <Stack.Navigator initialRouteName={logged ? "Home" : "Login"}>
-                <Stack.Screen name="Home" component={Home}/>
-                <Stack.Screen name="Login" component={Login} />
+                <Stack.Screen options={{ headerLeft: null }} name="Home" component={Home}/>
+                <Stack.Screen options={{ headerLeft: null }} name="Login" component={Login}>
+                </Stack.Screen>
             </Stack.Navigator>
         )
     } else {
@@ -49,5 +51,6 @@ const mapStateToProps = state => {
 }
 
 export default connect(mapStateToProps, {
-    init: initAppTC
+    init: initAppTC,
+    login: loginTC
 })(NavigatorContainer)

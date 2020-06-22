@@ -6,6 +6,7 @@ import usersPageReducer from "./reducers/users-page-reducer";
 import authReducer from "./reducers/auth-reducer";
 import thunkMW from "redux-thunk";
 import appReducer from "./reducers/app-reducer";
+import { reducer as form } from 'redux-form'
 
 
 
@@ -15,12 +16,13 @@ let reducers = combineReducers({
     navBar: navBarReducer,
     usersPage: usersPageReducer,
     auth: authReducer,
-    app: appReducer
+    app: appReducer,
+    form
 });
 
 let store = createStore(reducers, applyMiddleware(thunkMW));
 
-// window.store = store;
+window.store = store;
 
 
 export default store;

@@ -7,8 +7,8 @@ import { useLinkProps } from '@react-navigation/native';
 const defaultColor = Colors.nav.icons.color, 
     activeColor = Colors.nav.icons.activeColor;
 
-const NavBar = (props) => {
-    let index = props.state.index;
+const NavBar = ({state, ...props}) => {
+    let index = state.index;
     // console.log(index);
     return (
         <View style={styles.bar}>
