@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { initAppTC } from '../../redux/reducers/app-reducer';
 import Login from '../pages/Login/Login';
 import { loginTC } from '../../redux/reducers/auth-reducer';
+import UserPage from '../pages/UserPage/UserPage';
 
 const Stack = createStackNavigator();
 
@@ -19,9 +20,9 @@ const NavigatorContainer = ({init, initialized, logged, login, ...props }) => {
     if(initialized) {
         return (
             <Stack.Navigator initialRouteName={logged ? "Home" : "Login"}>
-                <Stack.Screen options={{ headerLeft: null }} name="Home" component={Home}/>
-                <Stack.Screen options={{ headerLeft: null }} name="Login" component={Login}>
-                </Stack.Screen>
+                <Stack.Screen options={{ headerLeft: null, headerShown: false }} name="Home" component={Home}/>
+                <Stack.Screen options={{ headerLeft: null }} name="Login" component={Login} />
+                <Stack.Screen options={{ headerShown: false }} name="UserPage" component={UserPage} />
             </Stack.Navigator>
         )
     } else {

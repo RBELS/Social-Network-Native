@@ -1,14 +1,24 @@
 import React from 'react'
-import { Text, View, StyleSheet } from 'react-native'
-import { Icon } from "react-native-elements";
-import NavBar from '../../NavBar/NavBar';
+import { StyleSheet } from 'react-native'
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import WithMode from './withMode';
+
+const Tab = createMaterialTopTabNavigator();
 
 const FriendsScreen = ({navigation, route}) => {
 
     return (
-        <View style={styles.screen}>
-            <Text>FriendsScreen</Text>
-        </View>
+        <Tab.Navigator>
+            <Tab.Screen name="Follows" >
+                {(props) => <WithMode {...props} mode={2} />}
+            </Tab.Screen>
+            <Tab.Screen name="Followers">
+                {(props) => <WithMode {...props} mode={1} />}
+            </Tab.Screen>
+        </Tab.Navigator>
+        // <View style={styles.screen}>
+        //     <Text>FriendsScreen</Text>
+        // </View>
     )
 }
 
@@ -21,3 +31,9 @@ const styles = StyleSheet.create({
 });
 
 export default FriendsScreen
+
+// connect(state => ({
+//     friends: state.usersPage.followers,
+//     isFetching: state.usersPage.isFetching
+// }), { getFriends: followersTC }
+// )

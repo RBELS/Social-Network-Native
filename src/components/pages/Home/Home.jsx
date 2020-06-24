@@ -14,7 +14,7 @@ const Tab = createBottomTabNavigator();
 const Home = ({logged, navigation, ...props}) => {
     if(logged) {
         return (
-            <Tab.Navigator tabBar={NavBar} initialRouteName="Profile">
+            <Tab.Navigator tabBar={NavBar} initialRouteName="Friends">
                 <Tab.Screen name="Users" component={UsersScreen} />
                 <Tab.Screen name="Friends" component={FriendsScreen} />
                 <Tab.Screen name="Chat" component={ChatScreen} />

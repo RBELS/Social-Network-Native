@@ -68,7 +68,7 @@ export const loginTC = (username, password) => {
             if (response.success) {
                 dispatch(toggleLoginAC(true));
             } else {
-                // dispatch(stopSubmit("login", { _error: "Email or passowrd is wrong!" }));
+                dispatch(stopSubmit("Login", { _error: "Email or passowrd is wrong!" }));
                 dispatch(toggleLoginAC(false));
             }
         });

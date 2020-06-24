@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import { Text, View, StyleSheet, ScrollView, Button } from 'react-native'
 import { connect } from 'react-redux';
-import TopProfileContent from './TopProfileContent/TopProfileContent';
-import ProfileInfo from './ProfileInfo/ProfileInfo';
 import { logoutTC } from '../../../redux/reducers/auth-reducer';
 import { getUserThunkCretor } from '../../../redux/reducers/profile-page-reducer';
 import { useFocusEffect } from '@react-navigation/native';
+import TopProfileContent from '../../screens/ProfileScreen/TopProfileContent/TopProfileContent';
+import ProfileInfo from '../../screens/ProfileScreen/ProfileInfo/ProfileInfo';
 
-const ProfileScreen = ({profile, getUser, ...props}) => {
+const UserPage = ({profile, getUser, ...props}) => {
 
     let username;
 
@@ -27,7 +27,6 @@ const ProfileScreen = ({profile, getUser, ...props}) => {
                 <Text style={styles.headerText}>{profile.username}</Text>
             </View>
             <ScrollView style={styles.content}>
-                <Button onPress={() => { props.logout() }} title="Logout(Temp)"/>{/*TEMP*/}
                 <TopProfileContent profile={profile} />
                 <ProfileInfo profile={profile} />
             </ScrollView>
@@ -70,4 +69,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { logout: logoutTC, getUser: getUserThunkCretor })(ProfileScreen);
+export default connect(mapStateToProps, { getUser: getUserThunkCretor })(UserPage);

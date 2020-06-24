@@ -9,10 +9,15 @@ const TOGGLE_FOLLOW = "TOGGLE-FOLLOW",
     UNFOLLOW = "UNFOLLOW",
     ADD_TO_BLOCED = "ADD-TO-BLOCKED",
     DELETE_FROM_BLOCKED = "DELETE-FROM-BLOCKED",
-    SET_PAGE = "SET-PAGE";
+    SET_PAGE = "SET-PAGE",
+    APPEND_USERS = "APPEND_USERS",
+    GET_FRIENDS = "GET_FRIENDS",
+    APPEND_FRIENDS = "APPEND_FRIENDS";
 
 let initialState = {
     users: [],
+    followers: [],
+    follows: [],
     // usersPageEls: 5,
     // currentPage: 1,
     isFetching: false,
@@ -26,12 +31,18 @@ const usersPageReducer = (state = initialState, action) => {
     if (action.type == GET_USERS) {
         return {
             ...state,
-            currentPage: action.newUsers[0] == undefined ? state.currentPage : state.currentPage + 1,
             users: [
-                ...state.users,
                 ...action.newUsers
             ]
         };
+    } else if (action.type == APPEND_USERS) {
+        return {
+            ...state,
+            users: [
+                ...state.users,
+                ...action.users
+            ]
+        }
     } else if (action.type == DELETE_USERS) {
         return {
             ...state,
@@ -82,6 +93,30 @@ const usersPageReducer = (state = initialState, action) => {
             ...state,
             currentPage: action.page
         }
+    } else if (action.type == GET_FRIENDS) {
+        if (action.mode === 1) {
+            return {
+                ...state,
+                followers: [...action.friends]
+            }
+        } else {
+            return {
+                ...state,
+                follows: [...action.friends]
+            }
+        }
+    } else if (action.type == APPEND_FRIENDS) {
+        if (action.mode === 1) {
+            return {
+                ...state,
+                followers: [...state.followers, ...action.friends]
+            }
+        } else {
+            return {
+                ...state,
+                follows: [...state.follows, ...action.friends]
+            }
+        }
     }
     return state;
 
@@ -98,14 +133,51 @@ export const unfollowAC = username => ({ type: UNFOLLOW, username });
 export const addToBlockedAC = username => ({ type: ADD_TO_BLOCED, username });
 export const deleteFromBlockedAC = username => ({ type: DELETE_FROM_BLOCKED, username });
 export const setPageAC = (page) => ({ type: SET_PAGE, page });
+export const appendUsersAC = users => ({ type: APPEND_USERS, users });
+export const getFriendsAC = (friends, mode) => ({ type: GET_FRIENDS, friends, mode }); //1 - followers, 2 - followed
+export const appendFriendsAC = (friends, mode) => ({ type: APPEND_FRIENDS, friends, mode });
 
-export const getUsersTC = (currentPage, usersPageEls, mode) => {
+export const followersTC = (page, number, like, append) => dispatch => {
+    dispatch(toggleFetchingAC());
+    getUsers(page, number, 3, like).then(followers => {
+        if (append) {
+            dispatch(appendFriendsAC(followers, 1));
+        } else {
+            dispatch(getFriendsAC(followers, 1));
+        }
+        dispatch(toggleFetchingAC());
+    });
+}
+
+export const followsTC = (page, number, like, append) => dispatch => {
+    dispatch(toggleFetchingAC());
+    getUsers(page, number, 2, like).then(follows => {
+        if (append) {
+            dispatch(appendFriendsAC(follows, 2));
+        } else {
+            dispatch(getFriendsAC(follows, 2));
+        }
+        dispatch(toggleFetchingAC());
+    });
+}
+
+export const getUsersTC = (currentPage, usersPageEls, mode, like) => {
     return dispatch => {
-        getUsers(currentPage, usersPageEls, mode).then(response => {
+        dispatch(toggleFetchingAC());
+        getUsers(currentPage, usersPageEls, mode, like).then(response => {
             dispatch(getUsersAC(response));
             dispatch(toggleFetchingAC());
         });
+    }
+}
+
+export const appendUsersTC = (page, usersPageEls, mode, like) => {
+    return dispatch => {
         dispatch(toggleFetchingAC());
+        getUsers(page, usersPageEls, mode, like).then(response => {
+            dispatch(appendUsersAC(response));
+            dispatch(toggleFetchingAC());
+        });
     }
 }
 

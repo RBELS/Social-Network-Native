@@ -5,17 +5,22 @@ import { Input } from '../CustomInputs/Input';
 import { InputPassword } from '../CustomInputs/InputPassword';
 import { StyleSheet } from 'react-native';
 
-const LoginForm = ({handleSubmit, ...props}) => {
-    
+const LoginForm = ({handleSubmit, error, ...props}) => {
     return (
-        <View style={styles.form}>
-            <Field name="username" placeholder="username" component={Input} />
-            <Field name="password" placeholder="password" component={InputPassword} />
+        <>
+            <View style={styles.form}>
+                <Field name="username" placeholder="username" component={Input} />
+                <Field name="password" placeholder="password" component={InputPassword} />
 
-            <TouchableOpacity onPress={handleSubmit} style={styles.loginBt}>
-                <Text style={styles.loginText}>Log In</Text>
-            </TouchableOpacity>
-        </View>
+                <TouchableOpacity onPress={handleSubmit} style={styles.loginBt}>
+                    <Text style={styles.loginText}>Log In</Text>
+                </TouchableOpacity>
+            </View>
+
+            <View style={styles.errorView}>
+                <Text style={styles.error}>{error}</Text>
+            </View>
+        </>
     )
 }
 
@@ -40,4 +45,12 @@ const styles = StyleSheet.create({
         fontSize: 24,
         color: "#FFF",
     },
+    errorView: {
+        height:20,
+        marginRight: "10%",
+        alignSelf: "flex-end"
+    },
+    error: {
+        color: "red"
+    }
 });
