@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View, Text, ScrollView, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import User from './User/User';
 import { connect } from 'react-redux';
 import { getUsersTC, appendUsersTC } from '../../../redux/reducers/users-page-reducer';

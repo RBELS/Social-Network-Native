@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react'
 import Home from '../pages/Home/Home'
 import { createStackNavigator } from '@react-navigation/stack'
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { initAppTC } from '../../redux/reducers/app-reducer';
 import Login from '../pages/Login/Login';
 import { loginTC } from '../../redux/reducers/auth-reducer';
 import UserPage from '../pages/UserPage/UserPage';
+import Messages from '../pages/Messages/Messages';
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,12 @@ const NavigatorContainer = ({init, initialized, logged, login, ...props }) => {
                 <Stack.Screen options={{ headerLeft: null, headerShown: false }} name="Home" component={Home}/>
                 <Stack.Screen options={{ headerLeft: null }} name="Login" component={Login} />
                 <Stack.Screen options={{ headerShown: false }} name="UserPage" component={UserPage} />
+                <Stack.Screen name="Messages" component={Messages} options={({route,navigation}) => ({
+                    headerTitle: () => <View style={{ flexDirection: "row", alignItems: "center" }}>
+                        <Image style={styles.avatar} source={{uri: route.params.imgSrc, width: 50, height: 50}} />
+                        <Text style={{ fontWeight: "bold", fontSize: 18, paddingLeft: 10 }}>{route.params.username}</Text>
+                    </View>
+                })} />
             </Stack.Navigator>
         )
     } else {
@@ -41,6 +48,9 @@ const styles = StyleSheet.create({
         alignItems:"center",
         justifyContent:"center",
         height: "100%"
+    },
+    avatar: {
+        borderRadius: 35
     }
 });
 

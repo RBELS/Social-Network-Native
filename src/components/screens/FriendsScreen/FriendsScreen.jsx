@@ -1,14 +1,14 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import WithMode from './withMode';
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs"
+import WithMode from './withMode'
 
 const Tab = createMaterialTopTabNavigator();
 
 const FriendsScreen = ({navigation, route}) => {
 
     return (
-        <Tab.Navigator>
+        <Tab.Navigator tabBarOptions={{labelStyle: { height: 40, paddingTop: 20 }}}>
             <Tab.Screen name="Follows" >
                 {(props) => <WithMode {...props} mode={2} />}
             </Tab.Screen>
