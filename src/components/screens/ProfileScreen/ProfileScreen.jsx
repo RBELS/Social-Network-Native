@@ -12,6 +12,7 @@ import {
     MenuOption,
     MenuTrigger
   } from 'react-native-popup-menu';
+import { Icon } from 'react-native-elements';
 
 const ProfileScreen = ({profile, getUser, ...props}) => {
 
@@ -33,7 +34,10 @@ const ProfileScreen = ({profile, getUser, ...props}) => {
                 
                 <Menu>
                     <MenuTrigger>
-                        <Text style={styles.headerText}>{profile.username}</Text>
+                        <View style={{ flexDirection: "row", alignItems: "center" }}>
+                            <Text style={styles.headerText}>{profile.username}</Text>
+                            <Icon name="tune" size={20} color="#000" style={{ marginTop: 4 }} />
+                        </View>
                     </MenuTrigger>
 
                     <MenuOptions optionsContainerStyle={{ marginTop: 30 }}>
@@ -66,6 +70,7 @@ const styles = StyleSheet.create({
     headerText: {
         fontSize: 20,
         fontWeight: "600",
+        marginRight: 10
     },
     screen: {
         height: "100%",
