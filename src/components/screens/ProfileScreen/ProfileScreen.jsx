@@ -6,6 +6,12 @@ import ProfileInfo from './ProfileInfo/ProfileInfo';
 import { logoutTC } from '../../../redux/reducers/auth-reducer';
 import { getUserThunkCretor } from '../../../redux/reducers/profile-page-reducer';
 import { useFocusEffect } from '@react-navigation/native';
+import {
+    Menu,
+    MenuOptions,
+    MenuOption,
+    MenuTrigger
+  } from 'react-native-popup-menu';
 
 const ProfileScreen = ({profile, getUser, ...props}) => {
 
@@ -24,10 +30,23 @@ const ProfileScreen = ({profile, getUser, ...props}) => {
     return (
         <View style={styles.screen}>
             <View style={styles.header}>
-                <Text style={styles.headerText}>{profile.username}</Text>
+                
+                <Menu>
+                    <MenuTrigger>
+                        <Text style={styles.headerText}>{profile.username}</Text>
+                    </MenuTrigger>
+
+                    <MenuOptions optionsContainerStyle={{ marginTop: 30 }}>
+                        <MenuOption onSelect={ () => { props.logout() } } >
+                            <View style={{ height: 30, alignItems: "flex-start", justifyContent: "center" }}>
+                                <Text style={{ fontSize: 18, fontWeight: "800" }}>Log Out</Text>
+                            </View>
+                        </MenuOption>
+                    </MenuOptions>
+                </Menu>
+
             </View>
             <ScrollView style={styles.content}>
-                <Button onPress={() => { props.logout() }} title="Logout(Temp)"/>{/*TEMP*/}
                 <TopProfileContent profile={profile} />
                 <ProfileInfo profile={profile} />
             </ScrollView>

@@ -1,9 +1,19 @@
 import React from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View, Text, Button } from 'react-native'
 
-const ProfileInfo = ({ profile, ...props }) => {
+const ProfileInfo = ({ profile, myUsername, onDirectMessagePress, follow, unfollow, ...props }) => {
     return (
         <View style={s.info}>
+            {profile.username != myUsername && myUsername && <>
+                <Button onPress={() => { onDirectMessagePress(profile.username, profile.imgSrc, profile.name) }} title="Direct message" />
+                <Button onPress={() => { 
+                    if(profile.followed) {
+                        unfollow(profile.username);
+                    } else {
+                        follow(profile.username);
+                    }
+                 }} title={ profile.followed ? "Unfollow" : "Follow" } />
+            </>}
             <Text style={s.header}>Info:</Text>
             <View style={s.infoEl}>
                 <Text>{`${profile.country}, ${profile.city}`}</Text>

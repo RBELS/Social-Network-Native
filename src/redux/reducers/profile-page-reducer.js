@@ -18,14 +18,6 @@ let initialState = {
     },
     profile: {
         followed: false,
-        imgSrc: "https://sun9-42.userapi.com/c824201/v824201973/16209c/rzYEIvOFb9I.jpg",
-        name: "Artyom Belsky",
-        status: "Just developin' this app",
-        country: "Belarus",
-        city: "Minsk",
-        dob: "October 17",
-        edu: "Gymnasium №36",
-        website: "http://vk.com/arbelsky"
     }
 };
 

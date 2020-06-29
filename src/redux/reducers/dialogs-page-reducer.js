@@ -9,7 +9,8 @@ const ADD_MESSAGE = "SEND-MESSAGE",
     SET_FETCHING = "SET-FETCHING",
     IF_FIRST_MESSAGE = "IF_FIRST_MESSAGE",
     SET_UNREAD_TO_READ = "SET_UNREAD_TO_READ",
-    PUSH_MESSAGES = "PUSH_MESSAGES";
+    PUSH_MESSAGES = "PUSH_MESSAGES",
+    PING_DIALOGS = "PING_DIALOGS";
 
 let initialState = {
     dialogs: [],
@@ -51,8 +52,8 @@ const dialogsPageReducer = (state = initialState, action) => {
             ...state,
             right: {
                 ...state.right,
+                lastPK: action.messages[0] == undefined ? 10000000 : action.messages[0].pk,
                 messages: action.messages,
-                lastPK: action.messages[0] == undefined ? 10000000 : action.messages[0].pk
             }
         }
     } else if (action.type == APPEND_MESSAGES) {
@@ -104,6 +105,21 @@ const dialogsPageReducer = (state = initialState, action) => {
                 messages: [...action.messages, ...state.right.messages]
             }
         }
+    } else if (action.type == PING_DIALOGS) {
+        return {
+            ...state,
+            dialogs: state.dialogs.map(d => {
+                if (action.senders.includes(d.written)) {
+                    console.log(d.written);
+                    return {
+                        ...d,
+                        unread: 1,
+                        last: action.msgs[action.senders.indexOf(d.written)]
+                    }
+                }
+                return d;
+            })
+        }
     }
 
     return state;
@@ -120,6 +136,7 @@ export const setFetchingAC = isFetching => ({ type: SET_FETCHING, isFetching });
 export const appendDialogsIfNeededAC = () => ({ type: IF_FIRST_MESSAGE });
 export const setUnreadToReadAC = recipient => ({ type: SET_UNREAD_TO_READ, recipient });
 export const pushMessagesAC = messages => ({ type: PUSH_MESSAGES, messages });
+export const pingDialogsAC = (senders, msgs) => ({ type: PING_DIALOGS, senders, msgs });
 
 export const getDialogsTC = () => dispatch => {
     dialogsAPI.getDialogs().then(response => {
@@ -156,6 +173,7 @@ export const sendMessageTC = (recipient, message) => dispatch => {
         } else {
             dispatch(addMessageAC(response.message));
             dispatch(appendDialogsIfNeededAC());
+            dispatch(getDialogsTC());
         }
         dispatch(onNewMessageTextChangeActionCreator(""));
     });
@@ -170,6 +188,14 @@ export const pingMessagesTC = recipient => dispatch => {
             });
         }
     });
+}
+
+export const pingDialogsTC = () => async dispatch => {
+    let response = await dialogsAPI.pingDialogsNative();
+
+    if (response.have) {
+        dispatch(pingDialogsAC(response.senders, response.lasts));
+    }
 }
 
 

@@ -4,6 +4,7 @@ import Fetching from '../../../Fetching/Fetching';
 import User from '../../UsersScreen/User/User';
 import { connect } from 'react-redux';
 import { Icon } from 'react-native-elements';
+import { useFocusEffect } from '@react-navigation/native';
 
 const FriendsView = ({navigation, friends, getFriends, isFetching, ...props}) => {
     // debugger
@@ -12,8 +13,16 @@ const FriendsView = ({navigation, friends, getFriends, isFetching, ...props}) =>
     const [page, setpage] = useState(1);
 
     useEffect(() => {
-        getFriends(page,14,inputValue,false);
+        getFriends(page,100,inputValue,false);
     }, [inputValue]);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            // Do something when the screen is focused
+            getFriends(1, 100, inputValue, false);
+            setpage(1);
+        }, [])
+    );
 
     return (
         <View style={styles.screen}>

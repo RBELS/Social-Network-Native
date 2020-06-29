@@ -1,15 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import { Icon } from 'react-native-elements'
 import Colors from '../../../assets/colors'
 import { useLinkProps } from '@react-navigation/native';
+import { connect } from 'react-redux';
 
 const defaultColor = Colors.nav.icons.color, 
     activeColor = Colors.nav.icons.activeColor;
 
-const NavBar = ({state, ...props}) => {
+const NavBar = ({state,haveUnreads, ...props}) => {
+
     let index = state.index;
-    // console.log(index);
+    let dialogsColor;
+
+    if(haveUnreads) dialogsColor = "#e3a600";
+    else if (index == 2) dialogsColor = activeColor;
+    else dialogsColor = defaultColor;
+
     return (
         <View style={styles.bar}>
             <TouchableOpacity onPress={() => { props.navigation.navigate("Users") }}>
@@ -21,7 +28,7 @@ const NavBar = ({state, ...props}) => {
             </TouchableOpacity>
 
             <TouchableOpacity onPress={() => { props.navigation.navigate("Chat") }}>
-                <Icon name="chat" color={ index == 2 ? activeColor : defaultColor } type="material" size={32}/>{/*chat*/}
+                <Icon name="chat" color={ dialogsColor } type="material" size={32}/>{/*chat*/}
             </TouchableOpacity>
 
             <TouchableOpacity onPress={() => { props.navigation.navigate("Profile") }}>
@@ -43,5 +50,6 @@ const styles = StyleSheet.create({
         justifyContent: "space-evenly"
     },
 });
+
 
 export default NavBar

@@ -3,25 +3,33 @@ import { Text, View, StyleSheet, TextInput, ScrollView, TouchableOpacity } from 
 import { Icon } from "react-native-elements";
 import NavBar from '../../NavBar/NavBar';
 import Dialog from './Dialog/Dialog';
-import { getDialogsTC } from '../../../redux/reducers/dialogs-page-reducer';
+import { getDialogsTC, pingDialogsTC } from '../../../redux/reducers/dialogs-page-reducer';
 import { connect } from 'react-redux';
 
-const ChatScreen = ({navigation, route, dialogs, getDialogs}) => {
+const ChatScreen = ({navigation, route, dialogs, getDialogs, pingDialogs}) => {
 
     const [inputValue, setInputValue] = useState("");
-
+    let interval;
     const [dialogsHere, setDialogs] = useState([]);
     useEffect(() => {
         if(!inputValue) {
             setDialogs(dialogs);
         } else {
-            setDialogs(dialogs.filter( ({written}) => written.includes(inputValue) ));
+            setDialogs(dialogs.filter( ({name}) => name.includes(inputValue) ));
         }
 
     }, [ inputValue ]);
 
     useEffect(() => {
         getDialogs();
+        interval = setInterval(() => {
+            pingDialogs();
+        }, 1000)
+
+        return () => {
+            clearInterval(interval);
+        }
+
     }, []);
 
     useEffect(() => {
@@ -40,7 +48,7 @@ const ChatScreen = ({navigation, route, dialogs, getDialogs}) => {
             </View>
             
             <ScrollView style={styles.dialogs}>
-                {dialogsHere.map( d => <Dialog {...d} navigation={navigation} /> )}
+                {dialogsHere.map( d => <Dialog key={d.pk} {...d} navigation={navigation} /> )}
                 {dialogsHere.length == 0 && <Text style={styles.notFound}>Not Found</Text>}
             </ScrollView>
         </View>
@@ -88,4 +96,4 @@ const mapStateToProps = state => ({
     dialogs: state.dialogsPage.dialogs
 })
 
-export default connect(mapStateToProps, { getDialogs: getDialogsTC })(ChatScreen)
+export default connect(mapStateToProps, { getDialogs: getDialogsTC, pingDialogs: pingDialogsTC })(ChatScreen)

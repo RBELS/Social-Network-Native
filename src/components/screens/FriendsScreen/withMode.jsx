@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from "react-redux";
 import FriendsView from "./FriendsView/FriendsView";
 import { followersTC, followsTC } from "../../../redux/reducers/users-page-reducer";

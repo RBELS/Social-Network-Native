@@ -5,6 +5,7 @@ import store from './src/redux/redux-store'
 import { NavigationContainer } from "@react-navigation/native";
 import NavigatorContainer from './src/components/NavigatorContainer/NavigatorContainer';
 import { YellowBox } from 'react-native';
+import { MenuProvider } from "react-native-popup-menu";
 
 YellowBox.ignoreWarnings([
   'Non-serializable values were found in the navigation state',
@@ -12,12 +13,16 @@ YellowBox.ignoreWarnings([
 ]);
 
 
+
+
 const App = () => {
   return (
     <NavigationContainer>
-      <Provider store={store}>
-        <NavigatorContainer />
-      </Provider>
+      <MenuProvider>
+        <Provider store={store}>
+          <NavigatorContainer />
+        </Provider>
+      </MenuProvider>
     </NavigationContainer>
   );
 }

@@ -10,10 +10,10 @@ const FriendsScreen = ({navigation, route}) => {
     return (
         <Tab.Navigator tabBarOptions={{labelStyle: { height: 40, paddingTop: 20 }}}>
             <Tab.Screen name="Follows" >
-                {(props) => <WithMode {...props} mode={2} />}
+                {(props) => <WithMode {...props} mode={1} />}
             </Tab.Screen>
             <Tab.Screen name="Followers">
-                {(props) => <WithMode {...props} mode={1} />}
+                {(props) => <WithMode {...props} mode={2} />}
             </Tab.Screen>
         </Tab.Navigator>
         // <View style={styles.screen}>

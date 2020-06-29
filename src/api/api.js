@@ -44,5 +44,7 @@ export const dialogsAPI = {
     getTotalMessages: (user, pageNum) => instance.get(`messages/getTotalMessagesPages.php?user=${user}&num=${pageNum}`).then(response => response.data),
     sendMessage: (recipient, message) => instance.post(`messages/sendMessage.php`, { recipient, message }).then(response => response.data),
     pingMessages: (recipient) => instance.get(`messages/unreadsNumber.php?r=${recipient}`).then(response => response.data),
-    getUnreadMessages: (recipient) => instance.get(`messages/getUnreads.php?r=${recipient}`).then(response => response.data)
+    getUnreadMessages: (recipient) => instance.get(`messages/getUnreads.php?r=${recipient}`).then(response => response.data),
+    haveUnreads: () => instance.get(`messages/haveUnreads.php`).then(response => response.data),
+    pingDialogsNative: () => instance.get(`messages/pingDialogsNative.php`).then(response => response.data)
 }
